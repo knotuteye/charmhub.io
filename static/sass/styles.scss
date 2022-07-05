@@ -245,6 +245,18 @@ body {
   }
 }
 
+.package-card-title {
+  text-transform: capitalize;
+}
+
+.package-card-summary {
+  display: inline-block;
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
+}
+
 .p-details-tab__content {
   .p-side-navigation {
     @media (min-width: $breakpoint-small) {

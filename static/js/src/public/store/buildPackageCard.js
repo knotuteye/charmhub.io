@@ -21,7 +21,9 @@ function buildPlatformIcons(entityCardIcons, altText, srcText, text) {
 }
 
 function buildPackageCard(entity) {
-  const entityCard = document.getElementById("package-card");
+  const entityCard = document.getElementById(
+    entity.type === "charm" ? "package-card-charm" : "package-card-bundle"
+  );
   const clone = entityCard.content.cloneNode(true);
 
   const entityCardContainer = clone.querySelector("[data-js='card-container']");
