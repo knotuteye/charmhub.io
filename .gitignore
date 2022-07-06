@@ -63,10 +63,12 @@ venv/
 # dotrun snap files
 .dotrun.json
 .venv/
+.local
+.cache
 
 node_modules/
 bower_components/
 *.log
-
+.yarnrc
 build/
 dist/
