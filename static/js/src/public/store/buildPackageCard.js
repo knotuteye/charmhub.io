@@ -38,7 +38,6 @@ function buildPackageCard(entity) {
   const bundleCardThumbnailContainer = clone.querySelector(".p-bundle-icons");
 
   if (entity.type === "charm") {
-    bundleCardThumbnailContainer.remove();
     const charmThumbnail =
       charmCardThumbnailContainer.querySelector(".p-card__thumbnail");
     charmThumbnail.alt = entity.name;
@@ -53,24 +52,32 @@ function buildPackageCard(entity) {
         "https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_64,h_64/https://assets.ubuntu.com/v1/be6eb412-snapcraft-missing-icon.svg";
     }
   } else {
-    charmCardThumbnailContainer.remove();
-    const bundleThumbnails =
-      bundleCardThumbnailContainer.querySelectorAll("img");
+    const bundleThumbnail = bundleCardThumbnailContainer.querySelector("img");
     const bundleIconsCount = bundleCardThumbnailContainer.querySelector(
       ".p-bundle-icons__count"
     );
 
-    if (entity.apps && entity.apps.length > 2) {
-      bundleIconsCount.innerText = `+${entity.apps.length - 2}`;
-    }
-    Array.from(bundleThumbnails).forEach((thumbnail, count) => {
-      if (entity.apps && entity.apps[count]) {
-        thumbnail.src = `/${entity.apps[count]["name"]}/icon`;
-      } else {
-        thumbnail.src =
-          "https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_64,h_64/https://assets.ubuntu.com/v1/be6eb412-snapcraft-missing-icon.svg";
+    if (entity.apps) {
+      entity.apps.slice(0, 11).forEach((app) => {
+        const thumbnail = bundleThumbnail.cloneNode(true);
+        thumbnail.src = `/${app["name"]}/icon`;
+        thumbnail.addEventListener("error", function () {
+          this.onerror = null;
+          this.src =
+            "https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_64,h_64/https://assets.ubuntu.com/v1/be6eb412-snapcraft-missing-icon.svg";
+        });
+        bundleCardThumbnailContainer.appendChild(thumbnail);
+        console.log(app, `/${app["name"]}/icon`);
+      });
+
+      bundleIconsCount.remove();
+      bundleThumbnail.remove();
+
+      if (entity.apps.length > 11) {
+        bundleIconsCount.innerText = `+${entity.apps.length - 11}`;
+        bundleCardThumbnailContainer.appendChild(bundleIconsCount);
       }
-    });
+    }
   }
 
   const entityCardTitle = clone.querySelector(".package-card-title");
@@ -95,7 +102,7 @@ function buildPackageCard(entity) {
 
   const entityCardSummary = clone.querySelector(".package-card-summary");
 
-  if (entity.result.summary) {
+  if (entity.type === "charm" && entity.result.summary) {
     entityCardSummary.innerHTML = truncateString(entity.result.summary, 90);
   }
 
