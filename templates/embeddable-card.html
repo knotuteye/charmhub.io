@@ -41,21 +41,7 @@
     <a href="/{{ package.name }}" class="p-card--button" style="display: block; margin-bottom: 0;">
       <div class="p-card__header">
         {% if package.type == "bundle" %}
-          <div class="p-bundle-icons" style="margin-block-end: 6px; margin-block-start: 6px;">
-          {% if package.store_front.bundle.charms %}
-            {% set charms = package.store_front.bundle.charms %}
-              <img src="/{{ charms[0].name }}/icon" alt="" />
-              <img src="/{{ charms[1].name }}/icon" alt="" />
-              {% if charms | length > 2 %}
-              <span class="p-bundle-icons__count u-text--muted">
-                +{{ charms | length - 2 }}
-              </span>
-              {% endif %}
-          {% else %}
-              <img src="https://assets.ubuntu.com/v1/be6eb412-snapcraft-missing-icon.svg" alt="" />
-              <img src="https://assets.ubuntu.com/v1/be6eb412-snapcraft-missing-icon.svg" alt="" />
-          {% endif %}
-          </div>
+         
         {% else %}
         <div class="p-card__thumbnail-container">
           <img src="{% if package.store_front.icons %}{{ package.store_front.icons[0] }}{% else %}https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,w_64,h_64/https://assets.ubuntu.com/v1/be6eb412-snapcraft-missing-icon.svg{% endif %}" alt="{{ package.name }}" class="p-card__thumbnail" loading="lazy" width="40" height="40">

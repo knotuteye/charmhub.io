@@ -60,14 +60,17 @@ function buildPackageCard(entity) {
     if (entity.apps) {
       entity.apps.slice(0, 11).forEach((app) => {
         const thumbnail = bundleThumbnail.cloneNode(true);
-        thumbnail.src = `/${app["name"]}/icon`;
+        thumbnail.title = app.name
+          .replace(/-/g, " ")
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+        thumbnail.src = `/${app.name}/icon`;
         thumbnail.addEventListener("error", function () {
-          this.onerror = null;
           this.src =
             "https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_64,h_64/https://assets.ubuntu.com/v1/be6eb412-snapcraft-missing-icon.svg";
         });
         bundleCardThumbnailContainer.appendChild(thumbnail);
-        console.log(app, `/${app["name"]}/icon`);
       });
 
       bundleIconsCount.remove();

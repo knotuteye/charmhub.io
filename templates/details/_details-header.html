@@ -6,20 +6,6 @@
           {% if package.type == "bundle" %}
             {% if package.store_front.bundle.charms %}
               {% set charms = package.store_front.bundle.charms %}
-              <div class="p-bundle-icons">
-                <img src="/{{ charms[0].name }}/icon" alt="" />
-                <img src="/{{ charms[1].name }}/icon" alt="" />
-                {% if charms | length > 2 %}
-                <span class="p-bundle-icons__count u-text--muted">
-                  +{{ charms | length - 2 }}
-                </span>
-                {% endif %}
-              </div>
-            {% else %}
-              <div class="p-bundle-icons">
-                <img src="https://assets.ubuntu.com/v1/be6eb412-snapcraft-missing-icon.svg" alt="" />
-                <img src="https://assets.ubuntu.com/v1/be6eb412-snapcraft-missing-icon.svg" alt="" />
-              </div>
             {% endif %}
           {% else %}
           <div class="p-media-object__image-container">
